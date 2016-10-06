@@ -1,11 +1,16 @@
 namespace ajax.Controllers {
 
     export class HomeController {
-        public message = 'Hello from the home page!';
         public movies;
 
-        constructor(movieService:ajax.Services.MovieService) {
-            this.movies = movieService.listMovies();
+        constructor(private $http: ng.IHttpService) {
+            this.$http.get('/api/movies')
+            .then((res) => {
+                this.movies = res.data;
+            })
+            .catch((res) => {
+                console.error('Could not retrieve movies.');
+            });
         }
     }
 
